@@ -1,0 +1,4 @@
+# Project exclude paths
+*.iml
+/hystrix/target/
+/.idea/
