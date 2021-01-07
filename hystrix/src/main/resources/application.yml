@@ -14,7 +14,7 @@ hystrix:
           timeInMilliseconds: 15000
       circuitBreaker:
         # 10秒内出现3个以上请求(已临近阀值),并且出错率在50%以上,开启断路器.断开服务,调用Fallback方法
-        requestVolumeThreshold: 1
+        requestVolumeThreshold: 3
         sleepWindowInMilliseconds: 10000
 management:
   endpoints:

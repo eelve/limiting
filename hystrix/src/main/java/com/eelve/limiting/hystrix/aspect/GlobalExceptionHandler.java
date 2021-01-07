@@ -25,21 +25,23 @@ public class GlobalExceptionHandler {
     /**
      * 处理自定义异常
      */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BaseException.class)
-    public JsonResult<Void> handleRRException(HttpServletRequest request, HttpServletResponse response,BaseException e) {
-        response.setStatus(500);
+    public JsonResult<Void> handleException(BaseException e) {
         JsonResult<Void> r = new JsonResult<Void>();
         r.setCode(e.getCode());
         r.setMsg(e.getMessage());
         return r;
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(RuntimeException.class)
     public JsonResult<Void> handleRuntimeException(Exception e) {
         log.info(e.getMessage());
         return JsonResult.error();
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(Exception.class)
     public JsonResult<Void> handleException(Exception e) {
         log.info(e.getMessage());
