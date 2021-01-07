@@ -1,0 +1,1 @@
+[测试地址，使用postman产生随机数](localhost:9090/get?num={{$randomInt}})
