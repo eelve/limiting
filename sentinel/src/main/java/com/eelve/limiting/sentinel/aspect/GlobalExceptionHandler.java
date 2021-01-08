@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
     /**
      * 处理自定义异常
      */
-    //@ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BaseException.class)
     public JsonResult<Void> handleException(BaseException e) {
         JsonResult<Void> r = new JsonResult<Void>();
