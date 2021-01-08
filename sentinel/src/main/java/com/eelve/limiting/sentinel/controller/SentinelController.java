@@ -38,30 +38,31 @@ public class SentinelController {
 
     @RequestMapping("/get")
     @ResponseBody
-    @SentinelResource(value = "allInfos",fallback = "errorReturn")
+    //@SentinelResource(value = "allInfos",fallback = "errorReturn")
+    @SentinelResource
     public JsonResult allInfos(HttpServletRequest request, HttpServletResponse response, @RequestParam Integer num){
         log.info("param----->" + num);
         try {
             //Thread.sleep(num);
 
-//            if (num % 2 == 0) {
-//                log.info("num % 2 == 0");
-//                throw new BaseException("something bad with 2", 400);
-//            }
+            if (num % 2 == 0) {
+                log.info("num % 2 == 0");
+                throw new BaseException("something bad with 2", 400);
+            }
 
             if (num % 3 == 0) {
                 log.info("num % 3 == 0");
                 throw new BaseException("something bad whitch 3", 400);
             }
 
-            if (num % 5 == 0) {
-                log.info("num % 5 == 0");
-                throw new ProgramException("something bad whitch 5", 400);
-            }
-            if (num % 7 == 0) {
-                log.info("num % 7 == 0");
-                int res = 1 / 0;
-            }
+//            if (num % 5 == 0) {
+//                log.info("num % 5 == 0");
+//                throw new ProgramException("something bad whitch 5", 400);
+//            }
+//            if (num % 7 == 0) {
+//                log.info("num % 7 == 0");
+//                int res = 1 / 0;
+//            }
             return JsonResult.ok();
         } catch (ProgramException e) {
             log.info("error");
