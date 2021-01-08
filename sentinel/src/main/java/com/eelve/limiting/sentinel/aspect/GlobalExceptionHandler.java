@@ -43,7 +43,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UndeclaredThrowableException.class)
     public JsonResult<Void> handleException(UndeclaredThrowableException e) {
         JsonResult<Void> r = new JsonResult<Void>();
-        log.info("我被熔断了");
+        log.info("我被熔断了 UndeclaredThrowableException");
         r.setCode(500);
         r.setMsg(e.getMessage());
         return r;
@@ -56,7 +56,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BlockException.class)
     public JsonResult<Void> handleException(BlockException e) {
         JsonResult<Void> r = new JsonResult<Void>();
-        log.info("我被熔断了");
+        log.info("我被熔断了 BlockException");
         r.setCode(500);
         r.setMsg(e.getMessage());
         return r;
@@ -72,13 +72,14 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(Exception.class)
     public JsonResult<Void> handleException(Exception e) {
-        log.info(e.getMessage());
+        log.info("Exception" + e.getMessage());
         return JsonResult.error();
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST) //设置状态码为 400
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public String paramExceptionHandler(MethodArgumentNotValidException e) {
+        log.info("MethodArgumentNotValidException" + e.getMessage());
         BindingResult exceptions = e.getBindingResult();
         // 判断异常中是否有错误信息，如果存在就使用异常中的消息，否则使用默认消息
         if (exceptions.hasErrors()) {
