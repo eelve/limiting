@@ -2,6 +2,7 @@ package com.eelve.limiting.sentinel.controller;
 
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.eelve.limiting.sentinel.exception.BaseException;
 import com.eelve.limiting.sentinel.exception.ProgramException;
 import com.eelve.limiting.sentinel.vo.JsonResult;
@@ -30,9 +31,14 @@ public class SentinelController {
         return JsonResult.error("熔断");
     }
 
+    /**
+     * blockHandler = "errorReturn" 熔断
+     * fallback = "errorReturn" 限流
+     */
+
     @RequestMapping("/get")
     @ResponseBody
-    @SentinelResource(value = "allInfos")
+    @SentinelResource(value = "allInfos",fallback = "errorReturn")
     public JsonResult allInfos(HttpServletRequest request, HttpServletResponse response, @RequestParam Integer num){
         log.info("param----->" + num);
         try {
@@ -61,6 +67,31 @@ public class SentinelController {
             log.info("error");
             return JsonResult.error("error");
         }
+    }
+
+    /**
+     * 限流，参数需要和方法保持一致
+     * @param request
+     * @param response
+     * @param num
+     * @return
+     * @throws BlockException
+     */
+    public JsonResult errorReturn(HttpServletRequest request, HttpServletResponse response, @RequestParam Integer num) throws BlockException {
+        return JsonResult.error("error 限流" + num );
+    }
+
+    /**
+     * 熔断，参数需要和方法保持一直，并且需要添加BlockException异常
+     * @param request
+     * @param response
+     * @param num
+     * @param b
+     * @return
+     * @throws BlockException
+     */
+    public JsonResult errorReturn(HttpServletRequest request, HttpServletResponse response, @RequestParam Integer num,BlockException b) throws BlockException {
+        return JsonResult.error("error 熔断" + num );
     }
 
 }
