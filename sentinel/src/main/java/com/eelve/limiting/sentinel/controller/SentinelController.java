@@ -39,7 +39,7 @@ public class SentinelController {
     @RequestMapping("/get")
     @ResponseBody
     //@SentinelResource(value = "allInfos",fallback = "errorReturn")
-    @SentinelResource
+    @SentinelResource(value = "allInfos")
     public JsonResult allInfos(HttpServletRequest request, HttpServletResponse response, @RequestParam Integer num){
         log.info("param----->" + num);
         try {
