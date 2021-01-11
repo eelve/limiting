@@ -4,3 +4,4 @@
 /.idea/
 /sentinel/target/
 /resilience4j/target/
+/guava/target/

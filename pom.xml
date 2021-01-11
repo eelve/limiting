@@ -12,6 +12,7 @@
         <module>hystrix</module>
         <module>sentinel</module>
         <module>resilience4j</module>
+        <module>guava</module>
     </modules>
 
     <parent>
