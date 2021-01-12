@@ -21,21 +21,10 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 @Log
 public class SentinelController {
-
-    /**
-     * 该方法是对接口调用超时的处理方法
-     */
-    public JsonResult timeOutError(HttpServletRequest request, HttpServletResponse response, @RequestParam Integer num) {
-        response.setStatus(500);
-        log.info("发生了熔断！！");
-        return JsonResult.error("熔断");
-    }
-
     /**
      * blockHandler = "errorReturn" 熔断
      * fallback = "errorReturn" 限流
      */
-
     @RequestMapping("/get")
     @ResponseBody
     //@SentinelResource(value = "allInfos",fallback = "errorReturn")

@@ -22,10 +22,15 @@ import javax.servlet.http.HttpServletResponse;
 @Log
 public class HystrixController {
 
+
     /**
-     * 该方法是对接口调用超时的处理方法
+     * 该方法是对接口调用超时的处理方法,参数必须和接口保持一直
+     * @param request
+     * @param response
+     * @param num
+     * @return
      */
-    public JsonResult timeOutError(HttpServletRequest request, HttpServletResponse response, @RequestParam Integer num) {
+    public JsonResult fallbackMethod(HttpServletRequest request, HttpServletResponse response, @RequestParam Integer num) {
         response.setStatus(500);
         log.info("发生了熔断！！");
         return JsonResult.error("熔断");
@@ -33,7 +38,7 @@ public class HystrixController {
 
     @RequestMapping("/get")
     @ResponseBody
-    @HystrixCommand(fallbackMethod = "timeOutError")
+    @HystrixCommand(fallbackMethod = "fallbackMethod")
     public JsonResult allInfos(HttpServletRequest request, HttpServletResponse response, @RequestParam Integer num){
         log.info("param----->" + num);
         try {
