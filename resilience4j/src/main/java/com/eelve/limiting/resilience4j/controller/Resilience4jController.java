@@ -26,8 +26,8 @@ public class Resilience4jController {
 
     @RequestMapping("/get")
     @ResponseBody
-    //@TimeLimiter(name = "BulkheadA")
-    @CircuitBreaker(name = "BulkheadA")
+    //@TimeLimiter(name = "BulkheadA",fallbackMethod = "fallbackMethod")
+    @CircuitBreaker(name = "BulkheadA",fallbackMethod = "fallbackMethod")
     @Bulkhead(name = "BulkheadA",fallbackMethod = "fallbackMethod")
     public JsonResult allInfos(HttpServletRequest request, HttpServletResponse response, @RequestParam Integer num){
         log.info("param----->" + num);
@@ -60,6 +60,14 @@ public class Resilience4jController {
     }
 
 
+    /**
+     * 需要参数一致，并且加上相应异常
+     * @param request
+     * @param response
+     * @param num
+     * @param exception
+     * @return
+     */
     public JsonResult fallbackMethod(HttpServletRequest request, HttpServletResponse response, @RequestParam Integer num, BulkheadFullException exception) {
         return JsonResult.error("error 熔断" + num );
     }
