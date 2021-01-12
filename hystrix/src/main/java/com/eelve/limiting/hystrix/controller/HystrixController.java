@@ -24,7 +24,7 @@ public class HystrixController {
 
 
     /**
-     * 该方法是对接口调用超时的处理方法,参数必须和接口保持一直
+     * 该方法是熔断回调方法，参数需要和接口保持一致
      * @param request
      * @param response
      * @param num
