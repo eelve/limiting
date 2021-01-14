@@ -4,6 +4,7 @@ import com.eelve.limiting.hystrix.exception.BaseException;
 import com.eelve.limiting.hystrix.exception.ProgramException;
 import com.eelve.limiting.hystrix.vo.JsonResult;
 import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCollapser;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.extern.java.Log;
 import org.springframework.web.bind.annotation.RequestMapping;
