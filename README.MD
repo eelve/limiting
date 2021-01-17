@@ -483,7 +483,7 @@ resilience4j.timelimiter:
 
 > 如grafana等
 
-## 4.讨论点
+## 4.关注点
 
 - 是否需要过滤部分异常
 - 是否需要全局默认规则
