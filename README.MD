@@ -239,18 +239,18 @@ public @interface HystrixCommand {
 @ResponseBody
 @HystrixCommand(fallbackMethod = "fallbackMethod")
 public JsonResult allInfos(HttpServletRequest request, HttpServletResponse response, @RequestParam Integer num){
-        try {
-            if (num % 3 == 0) {
-                log.info("num % 3 == 0");
-                throw new BaseException("something bad whitch 3", 400);
-            }
-
-            return JsonResult.ok();
-        } catch (ProgramException | InterruptedException exception) {
-            log.info("error");
-            return JsonResult.error("error");
+    try {
+        if (num % 3 == 0) {
+            log.info("num % 3 == 0");
+            throw new BaseException("something bad whitch 3", 400);
         }
+
+        return JsonResult.ok();
+    } catch (ProgramException | InterruptedException exception) {
+        log.info("error");
+        return JsonResult.error("error");
     }
+}
 ~~~
 
 #### 3.2.3针对接口配置熔断方法
@@ -264,10 +264,10 @@ public JsonResult allInfos(HttpServletRequest request, HttpServletResponse respo
  * @return
  */
 public JsonResult fallbackMethod(HttpServletRequest request, HttpServletResponse response, @RequestParam Integer num) {
-        response.setStatus(500);
-        log.info("发生了熔断！！");
-        return JsonResult.error("熔断");
-    }
+    response.setStatus(500);
+    log.info("发生了熔断！！");
+    return JsonResult.error("熔断");
+}
 ~~~
 
 #### 3.2.4配置默认策略
@@ -307,39 +307,39 @@ hystrix:
 
 ~~~java
 <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-test</artifactId>
+    <scope>test</scope>
+</dependency>
 
-        <dependency>
-            <groupId>io.github.resilience4j</groupId>
-            <artifactId>resilience4j-spring-boot2</artifactId>
-            <version>1.6.1</version>
-        </dependency>
+<dependency>
+    <groupId>io.github.resilience4j</groupId>
+    <artifactId>resilience4j-spring-boot2</artifactId>
+    <version>1.6.1</version>
+</dependency>
 
-        <dependency>
-            <groupId>io.github.resilience4j</groupId>
-            <artifactId>resilience4j-bulkhead</artifactId>
-            <version>1.6.1</version>
-        </dependency>
+<dependency>
+    <groupId>io.github.resilience4j</groupId>
+    <artifactId>resilience4j-bulkhead</artifactId>
+    <version>1.6.1</version>
+</dependency>
 
-        <dependency>
-            <groupId>io.github.resilience4j</groupId>
-            <artifactId>resilience4j-ratelimiter</artifactId>
-            <version>1.6.1</version>
-        </dependency>
+<dependency>
+    <groupId>io.github.resilience4j</groupId>
+    <artifactId>resilience4j-ratelimiter</artifactId>
+    <version>1.6.1</version>
+</dependency>
 
-        <dependency>
-            <groupId>io.github.resilience4j</groupId>
-            <artifactId>resilience4j-timelimiter</artifactId>
-            <version>1.6.1</version>
-        </dependency>
+<dependency>
+    <groupId>io.github.resilience4j</groupId>
+    <artifactId>resilience4j-timelimiter</artifactId>
+    <version>1.6.1</version>
+</dependency>
 ~~~
 
 > 可以按需要引入：bulkhead，ratelimiter，timelimiter等
@@ -347,56 +347,56 @@ hystrix:
 #### 3.3.2改造接口
 
 ~~~java
-    @RequestMapping("/get")
-    @ResponseBody
-    //@TimeLimiter(name = "BulkheadA",fallbackMethod = "fallbackMethod")
-    @CircuitBreaker(name = "BulkheadA",fallbackMethod = "fallbackMethod")
-    @Bulkhead(name = "BulkheadA",fallbackMethod = "fallbackMethod")
-    public JsonResult allInfos(HttpServletRequest request, HttpServletResponse response, @RequestParam Integer num){
-        log.info("param----->" + num);
-        try {
-            //Thread.sleep(num);
+@RequestMapping("/get")
+@ResponseBody
+//@TimeLimiter(name = "BulkheadA",fallbackMethod = "fallbackMethod")
+@CircuitBreaker(name = "BulkheadA",fallbackMethod = "fallbackMethod")
+@Bulkhead(name = "BulkheadA",fallbackMethod = "fallbackMethod")
+public JsonResult allInfos(HttpServletRequest request, HttpServletResponse response, @RequestParam Integer num){
+    log.info("param----->" + num);
+    try {
+        //Thread.sleep(num);
 
-            if (num % 2 == 0) {
-                log.info("num % 2 == 0");
-                throw new BaseException("something bad with 2", 400);
-            }
-
-            if (num % 3 == 0) {
-                log.info("num % 3 == 0");
-                throw new BaseException("something bad whitch 3", 400);
-            }
-
-            if (num % 5 == 0) {
-                log.info("num % 5 == 0");
-                throw new ProgramException("something bad whitch 5", 400);
-            }
-            if (num % 7 == 0) {
-                log.info("num % 7 == 0");
-                int res = 1 / 0;
-            }
-            return JsonResult.ok();
-        } catch (BufferUnderflowException e) {
-            log.info("error");
-            return JsonResult.error("error");
+        if (num % 2 == 0) {
+            log.info("num % 2 == 0");
+            throw new BaseException("something bad with 2", 400);
         }
+
+        if (num % 3 == 0) {
+            log.info("num % 3 == 0");
+            throw new BaseException("something bad whitch 3", 400);
+        }
+
+        if (num % 5 == 0) {
+            log.info("num % 5 == 0");
+            throw new ProgramException("something bad whitch 5", 400);
+        }
+        if (num % 7 == 0) {
+            log.info("num % 7 == 0");
+            int res = 1 / 0;
+        }
+        return JsonResult.ok();
+    } catch (BufferUnderflowException e) {
+        log.info("error");
+        return JsonResult.error("error");
     }
+}
 ~~~
 
 #### 3.3.3 针对接口配置熔断方法
 
 ~~~java
 /**
-     * 需要参数一致，并且加上相应异常
-     * @param request
-     * @param response
-     * @param num
-     * @param exception
-     * @return
-     */
+ * 需要参数一致，并且加上相应异常
+ * @param request
+ * @param response
+ * @param num
+ * @param exception
+ * @return
+ */
 public JsonResult fallbackMethod(HttpServletRequest request, HttpServletResponse response, @RequestParam Integer num, BulkheadFullException exception) {
-        return JsonResult.error("error 熔断" + num );
-    }
+    return JsonResult.error("error 熔断" + num );
+}
 ~~~
 
 #### 3.3.4配置规则
