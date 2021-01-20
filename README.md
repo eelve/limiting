@@ -305,7 +305,7 @@ hystrix:
 
 #### 3.3.1引入依赖
 
-~~~java
+~~~pom
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-web</artifactId>
