@@ -21,7 +21,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         /**
-         * test接口，1秒钟生成1个令牌，也就是1秒中允许一个人访问
+         * get接口，1秒钟生成1个令牌，也就是1秒中允许一个人访问
          */
         registry.addInterceptor(new RateLimiterInterceptor(RateLimiter.create(1, 1, TimeUnit.SECONDS)))
                 .addPathPatterns("/get");
